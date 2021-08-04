@@ -12,14 +12,13 @@ public class Cliente {
 		super();
 	}
 
-	public Cliente(String runCliente, String nombreCliente, String apellidoCliente, String aniosCliente,
-			CategoriaEnum estado) {
+	public Cliente(String runCliente, String nombreCliente, String apellidoCliente, String aniosCliente) {
 		super();
 		this.runCliente = runCliente;
 		this.nombreCliente = nombreCliente;
 		this.apellidoCliente = apellidoCliente;
 		this.aniosCliente = aniosCliente;
-		this.estado = estado;
+		this.estado = CategoriaEnum.ACTIVO;
 	}
 
 	public String getRunCliente() {

@@ -24,7 +24,5 @@ public class ClienteServicio {
 	public void setListaClientes(List<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
 	}
-	
-	
-	
+
 }
