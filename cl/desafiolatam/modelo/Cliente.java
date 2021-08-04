@@ -1,16 +1,12 @@
 package cl.desafiolatam.modelo;
 
-enum CategoriaEnum {
-	ACTIVO, INACTIVO;
-}
-
 public class Cliente {
 
 	private String runCliente;
 	private String nombreCliente;
 	private String apellidoCliente;
 	private String aniosCliente;
-	CategoriaEnum estado;
+	private CategoriaEnum estado;
 
 	public Cliente() {
 		super();
