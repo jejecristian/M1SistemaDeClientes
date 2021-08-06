@@ -4,7 +4,7 @@ import java.util.List;
 
 import cl.desafiolatam.modelo.Cliente;
 
-public class ExportadorCsv extends Exportador {
+public class ExportadorTxt extends Exportador {
 
 	@Override
 	void exportar(String fileName, List<Cliente> listaCliente) {
