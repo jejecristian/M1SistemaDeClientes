@@ -2,26 +2,14 @@ package cl.desafiolatam.main;
 
 import cl.desafiolatam.vista.Menu;
 
+// 5.- Crear la clase Main con método public static void en el package main, 
+// la cual usará una instancia para iniciar el menú.
 public class Main {
 
 	public static void main(String[] args) {
-		/*
-		Cliente cliente1 = new Cliente();
-		cliente1.setNombreCliente("Juan Carlos");
-		cliente1.setApellidoCliente("Bodoque");
-		cliente1.setRunCliente("1-7");
-		cliente1.setAniosCliente("42");
-		cliente1.setEstado(CategoriaEnum.INACTIVO);
-		System.out.println("Cliente 1 es: \n"+cliente1.toString());
-
-		Cliente cliente2 = new Cliente("1-7", "Alexis", "Sanchez", "34");
-		System.out.println("Cliente 2 es: \n"+cliente2.toString());
-		
-		List<Cliente> listaClientes = new ArrayList<Cliente>();
-		*/
+		// Se crea instancia de menú
 		Menu listadoMenu = new Menu();
+		// Invoca metodo que presenta el menú
 		listadoMenu.iniciarMenu();
-
 	}
-
 }

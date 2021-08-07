@@ -2,6 +2,7 @@ package cl.desafiolatam.vista;
 
 import java.util.Scanner;
 
+import cl.desafiolatam.modelo.Cliente;
 import cl.desafiolatam.servicio.*;
 import cl.desafiolatam.utilidades.*;
 
@@ -14,6 +15,12 @@ public class Menu implements AccionesMenu{
 	String fileName1 = "DBClientes.csv"; //para importar el archivo
 	Scanner sc = new Scanner(System.in);
 	
+	// 6.8.- iniciarMenu, muestra el menu principal y recibe 
+	// la entrada del teclado a través del scanner.
+	// Contiene la lógica para denotar los demás métodos 
+	// en base a la entrada del teclado.
+	// 8.7.- Hint: El único método que no se debe sobreescribir es iniciarMenu, 
+	// ya que contiene su implementación al inicio de la clase para formar el menú.
 	public void iniciarMenu() {
 		String opcion = "";
 		boolean clsBfMenu = false;
@@ -64,140 +71,26 @@ public class Menu implements AccionesMenu{
 					sc.nextLine();
 					break;
 				case "3": // Editar Cliente
-					/*
 					// Limpia pantalla
 					utilidad.limpiezaDePantalla();
-					if (archivoServicio.getProductoServicio().getListaProductos().isEmpty()) {
-						// Si no hay productos, muestra mensaje informativo
-						System.out.println("Aún no existen productos en la lista.");
+					if (clienteServicio.getListaClientes().isEmpty()) {
+						// Si no hay clientes, muestra mensaje informativo
+						System.out.println("Aún no existen clientes en la lista como para editar uno.");
 					} else {
-						// Si hay productos, se podria editar un producto
-						System.out.println("Editar Producto");
-						System.out.println("Ingrese el número 1 para editar los datos ingresados del Producto");
-						respuesta = sc.nextLine();
-						if (respuesta.equals("1")) {
-							// Si la respuesta es 1 entonces podría editar producto
-							System.out.println("Ingrese código del producto:");
-							codigo = sc.nextLine();
-							// Invoca metodo que permite encontrar el producto y valida retorno
-							if (archivoServicio.encontrarProducto(codigo)) {
-								// Si el código ingresado existe dentro de la lista de productos
-								System.out.println("Ingrese la opción a editar de los datos del producto: ");
-								dato = sc.nextLine();
-								if (dato.equals("1")) {
-									// Si ingresó opción válida para editar un dato
-									System.out.println("Ingrese el nuevo nombre del producto: ");
-									valor = sc.nextLine();
-									// Invoca metodo que permite editar dato del producto
-									archivoServicio.editarProducto(codigo, dato, valor);
-								} else if (dato.equals("2")) {
-									// Si ingresó opción válida para editar un dato
-									System.out.println("Ingrese el nuevo código del producto: ");
-									valor = sc.nextLine();
-									// Invoca metodo que permite editar dato del producto
-									archivoServicio.editarProducto(codigo, dato, valor);
-								} else if (dato.equals("3")) {
-									// Si ingresó opción válida para editar un dato
-									System.out.println("Ingrese el nuevo color del producto: ");
-									valor = sc.nextLine();
-									// Invoca metodo que permite editar dato del producto
-									archivoServicio.editarProducto(codigo, dato, valor);
-								} else if (dato.equals("4")) {
-									// Si ingresó opción válida para editar un dato
-									System.out.println("Ingrese la nueva descripción del producto: ");
-									valor = sc.nextLine();
-									// Invoca metodo que permite editar dato del producto
-									archivoServicio.editarProducto(codigo, dato, valor);
-								} else if (dato.equals("5")) {
-									// Si ingresó opción válida para editar un dato
-									System.out.println("Ingrese la nueva marca del producto: ");
-									valor = sc.nextLine();
-									// Invoca metodo que permite editar dato del producto
-									archivoServicio.editarProducto(codigo, dato, valor);
-								} else if (dato.equals("6")) {
-									// Si ingresó opción válida para editar un dato
-									System.out.println("Ingrese el nuevo precio del producto: ");
-									valor = sc.nextLine();
-									// Invoca metodo que permite editar dato del producto
-									archivoServicio.editarProducto(codigo, dato, valor);
-								} else if (dato.equals("7")) {
-									// Si ingresó opción válida para editar un dato
-									System.out.println("Ingrese la nueva talla del producto: ");
-									valor = sc.nextLine();
-									// Invoca metodo que permite editar dato del producto
-									archivoServicio.editarProducto(codigo, dato, valor);
-								} else {
-									// Si ingresó una opción inválida para editar un dato
-									System.out.printf("\n");
-									System.out.println("No se editarán datos, ya que no ingresó una opción válida.");
-								}
-							} else {
-								// Si el código ingresado no existe dentro de la lista de productos
-								System.out.printf("\n");
-								System.out.println("El código ingresado no coincide con ningun producto.");
-							}
-						} else {
-							// La respuesta fue distinto de 1 por ende no editará producto
-							System.out.printf("\n");
-							System.out.println("No se editarán datos, ya que no ingresó 1.");
-						}
+						// Si hay clientes, se podrian editar los datos
+						// invoca metodo para editar cliente
+						editarCliente();
 					}
 					System.out.println("Presione Enter para volver al menu principal.");
 					sc.nextLine();
-					*/
 					break;
 				case "4":// Cargar Datos
-					/*
 					// Limpia pantalla
 					utilidad.limpiezaDePantalla();
-					// Valida nombre de la ruta
-					String directorio = "";
-					System.out.println("Cargar Datos");
-					System.out.println("Ingrese la ruta en donde se encuentra el archivo");
-					System.out.println("ProductosImportados.csv:");
-					System.out.printf("\n");
-					// Se espera que el usuario ingrese la ruta como por ejemplo:
-					// "src/miCarpeta" ya que esta se incluye en el package con el archivo
-					directorio = sc.nextLine();
-					if (directorio.trim().length() == 0) {
-						// Si el nombre de la ruta es vacio, muestra mensaje informativo
-						System.out.printf("\n");
-						System.out.println("El nombre del directorio ingresado no es válido.");
-						System.out.println("Volviendo al menú principal...");
-						// Uso del tiempo de espera
-						utilidad.tiempoDeEspera(3);
-					} else {
-						// Si el nombre de la ruta es válida, podría importar datos
-						if (archivoServicio.getProductoServicio().getListaProductos().isEmpty()) {
-							// Si no hay productos importados, importa datos desde el csv
-							// Asigna valor al atributo de ruta del archivo
-							archivoServicio.setRutaArchivo(directorio);
-							// Invoca metodo para importar datos
-							archivoServicio.cargarDatos();
-							sc.nextLine();
-						} else {
-							// Si hay productos importados, se consultara si desea importar nuevamente
-							System.out.printf("\n");
-							System.out.println("Ya existen datos cargados en la lista");
-							System.out.println("¿Desea cargar los datos nuevamente?");
-							System.out.println("Ingrese 1 para continuar...");
-							respuesta = sc.nextLine();
-							if (respuesta.equals("1")) {
-								// Si requiere importar nuevamente la lista
-								// Asigna valor al atributo de ruta del archivo
-								archivoServicio.setRutaArchivo(directorio);
-								// Invoca metodo para importar datos
-								archivoServicio.cargarDatos();
-								sc.nextLine();
-							} else {
-								System.out.printf("\n");
-								System.out.println("No se volvieron a cargar los datos, ya que no ingresó 1.");
-								System.out.println("Presione Enter para volver al menu principal.");
-								sc.nextLine();
-							}
-						}
-					}
-					*/
+					// invoca metodo para importar datos
+					importarDatos();
+					System.out.println("Presione Enter para volver al menu principal.");
+					sc.nextLine();
 					break;
 				case "5": // Exportar Datos
 					break;
@@ -301,11 +194,12 @@ public class Menu implements AccionesMenu{
 	// en caso de requerirlo o cambiar el estado del cliente.
 	@Override
 	public void editarCliente() {
-		String opEdit, run, nombre, apellido, anios;
-		run = "";
-		nombre = "";
-		apellido = "";
-		anios = "";
+		String opEdit = "", run = "", nombre = "", apellido = "";
+		String anios = "", estado = "", estadoInverso = "";
+		boolean invocEditClienteServicio = true;
+		Utilidad utilidad = new Utilidad();
+		
+		// Presenta menu de edición de datos
 		do {
 			System.out.println("-------------Editar Cliente-------------");
 			System.out.println("Seleccione qué desea hacer:");
@@ -317,41 +211,141 @@ public class Menu implements AccionesMenu{
 			System.out.println();
 			opEdit = sc.nextLine().trim();
 			if (!opEdit.trim().equals("1") && !opEdit.trim().equals("2")) {
-				System.out.println("Ingrese una opción válida.");
+				System.out.println("No se ingresó una opción válida. Intente nuevamente...");
+				utilidad.tiempoDeEspera(2);
+				utilidad.limpiezaDePantalla();
 			}
 		} while (!opEdit.trim().equals("1") && !opEdit.trim().equals("2"));
-		if(opEdit.trim().equals("1")) {
-			// En este caso, se buscará cambiar el estado del cliente
-			System.out.println("Ingrese RUN del Cliente a editar: ");
-			run = sc.nextLine();
-			System.out.println("-----Actualizando estado del Cliente----");
-			System.out.println("El estado actual es: "+"");
-			System.out.println("1.-Si desea cambiar el estado del Cliente a Inactivo");
-			System.out.println("2.-Si desea mantener el estado del cliente Activo");
-			System.out.println();
-			System.out.println("Ingrese opción:");
-			opEdit = sc.nextLine();
-			System.out.println("----------------------------------------");
-			System.out.println("Datos cambiados con éxito");
-			
-		}else {
-			// En este caso, se quiere cambiar los datos ingresados en 
-			// un cliente, mediante la búsqueda por el RUN
-			System.out.println("Ingrese RUN del Cliente a editar: ");
-			System.out.println();
-			System.out.println("-----Actualizando estado del Cliente----");
+		
+		// De haber ingresado una opción válida, entonces solicita el RUN
+		System.out.println("Ingrese RUN del Cliente a editar: ");
+		run = sc.nextLine().trim();
+		
+		// Busca el registro coincidente con el RUN ingresado
+		int pos = -1, contador = 0;
+		for (Cliente cli : clienteServicio.getListaClientes()) {
+			if (cli.getRunCliente().equals(run)) {
+				pos = contador;
+			}
+			contador++;
 		}
 		
-		// Invoca metodo editarCliente de la Clase ClienteServicio, por lo siguiente:
-		// 9.5.- Generar un public void del método editarCliente 
-		// y pasarle los parámetros de la clase Cliente.
-		clienteServicio.editarCliente(run, nombre, apellido, anios);
+		// Si existe coincidencia del RUN entonces
+		// realiza operación correspondiente a la opción de edición ingresada
+		if (pos >= 0) {
+			Cliente cliEdit = clienteServicio.getListaClientes().get(pos);
+			// Realiza una acción dependiendo de la opción ingresada
+			if (opEdit.trim().equals("1")) {
+				// En este caso, se buscará cambiar o mantener el estado del cliente
+				System.out.println("-----Actualizando estado del Cliente----");
+				// Verfica el estado del cliente
+				if(String.valueOf(cliEdit.getEstado()).equalsIgnoreCase("activo")) {
+					estado = "Activo"; 
+					estadoInverso = "Inactivo";
+				}else {
+					estado = "Inactivo";
+					estadoInverso = "Activo";
+				}
+				System.out.println("El estado actual es: " + estado);
+				System.out.println("1.-Si desea cambiar el estado del Cliente a "+ estadoInverso);
+				System.out.println("2.-Si desea mantener el estado del cliente "+ estado);
+				System.out.println();
+				System.out.println("Ingrese opción:");
+				opEdit = sc.nextLine().trim();
+				// Se ingresa 1, si el usuario prefiere cambiar el estado
+				if (opEdit.equals("1")) {
+					estado = estadoInverso;
+				}else if(!opEdit.equals("1")&&!opEdit.equals("2")){
+					System.out.println("La opción ingresada no es válida, por ende se mantendrá el estado.");
+					invocEditClienteServicio = false;
+				}
+			} else {
+				// En este caso, se quiere cambiar los datos ingresados en
+				// un cliente, mediante la búsqueda por el RUN
+				// Almacena datos del cliente
+				run = cliEdit.getRunCliente();
+				nombre = cliEdit.getNombreCliente();
+				apellido = cliEdit.getApellidoCliente();
+				anios = cliEdit.getAniosCliente();
+				estado = String.valueOf(cliEdit.getEstado());
+				// Presenta opciones de edicion de datos
+				System.out.println("----Actualizando datos del Cliente-----");
+				System.out.println("1.-El RUN del Cliente es: "+ run );
+				System.out.println("2.-El Nombre del Cliente es: "+ nombre);
+				System.out.println("3.-El Apellido del Cliente es: "+ apellido);
+				System.out.println("4.-Los años como Cliente son: "+ anios);
+				System.out.println();
+				System.out.println("Ingrese una opción a editar de los datos del cliente:");
+				opEdit = sc.nextLine().trim();
+				// Valida la opción ingresada
+				if(opEdit.equals("1")) {
+					System.out.println("1.-Ingrese nuevo RUN del Cliente:");
+					run = sc.nextLine().trim();
+				}else if (opEdit.equals("2")) {
+					System.out.println("2.-Ingrese nuevo Nombre del Cliente:");
+					nombre = sc.nextLine().trim();
+				}else if(opEdit.equals("3")) {
+					System.out.println("3.-Ingrese nuevo Apellido del Cliente:");
+					apellido = sc.nextLine().trim();
+				}else if(opEdit.equals("4")) {
+					System.out.println("4.-Ingrese nuevos años como Cliente:");
+					anios = sc.nextLine().trim();
+					if (anios.trim().equals("")) {
+						anios = "0 años";
+					}else if(!anios.trim().contains("año")) {
+						try {
+							if (Integer.parseInt(anios) == 1) {
+								anios = anios + " año";
+							} else if (Integer.parseInt(anios) > 1) {
+								anios = anios + " años";
+							} else {
+								anios = "0 años";
+							}
+						} catch (NumberFormatException e) {
+							anios = "0 años";
+						}
+					}
+				}else {
+					System.out.println("La opción ingresada no es válida, por ende se mantendrán los mismos datos.");
+					invocEditClienteServicio = false;
+				}
+			}
+
+			// Invoca metodo editarCliente de la Clase ClienteServicio, por lo siguiente:
+			// 9.5.- Generar un public void del método editarCliente
+			// y pasarle los parámetros de la clase Cliente.
+			if (invocEditClienteServicio) {
+				clienteServicio.editarCliente(run, nombre, apellido, anios, estado);
+			}
+		} else {
+			System.out.println("No se ha encontrado el cliente con RUN: " + run);
+		}
 	}
 
+	// 8.4.- cargarDatos, ejecuta la carga de datos del archivo “DBClientes.csv”.
 	@Override
 	public void importarDatos() {
-		// TODO Auto-generated method stub
-		
+		String rutaArchivo = "", opConfirmar = "";
+		boolean invocCargarDatos = true;
+		// Comprueba si existen clientes en la lista
+		if (!clienteServicio.getListaClientes().isEmpty()) {
+			// Si ya hay clientes en la lista, consulta al usuario
+			System.out.println("Ya existen clientes en la lista.");
+			System.out.println("¿Desea sobreescribir la lista con los datos a importar?");
+			System.out.println("Ingrese 1 para confirmar:");
+			opConfirmar = sc.nextLine().trim();
+			if (!opConfirmar.equals("1")) {
+				invocCargarDatos = false;
+				System.out.println("Proceso importar datos cancelado por petición del usuario.");
+			}
+		}
+		if (invocCargarDatos) {
+			System.out.println("---------Cargar Datos en Windows---------------");
+			System.out.println("Ingresa la ruta en donde se encuentra el archivo DBClientes.csv:");
+			rutaArchivo = sc.nextLine().trim();
+			rutaArchivo = rutaArchivo + "\\" + fileName1;
+			archivoServicio.cargarDatos(rutaArchivo);
+		}
 	}
 
 	@Override
