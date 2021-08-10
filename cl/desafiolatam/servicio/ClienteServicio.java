@@ -6,6 +6,20 @@ import java.util.List;
 import cl.desafiolatam.modelo.CategoriaEnum;
 import cl.desafiolatam.modelo.Cliente;
 
+/*
+9.- Crear la clase ClienteServicio en el package servicio con los siguientes requisitos:
+- Crear un atributo llamado List<Cliente> listaClientes.
+- Generar un constructor de ClienteServicio que tenga esta listaClientes como
+una nueva ArrayList.
+- Generar el método público sin valor de retornolistarClientes e implementar el
+ciclo más idóneo para recorrer cada uno de los clientes.
+- Generar un public void del método agregarCliente y pasarle los parámetros de
+la clase Cliente. Utiliza este método para guardar clientes en una instancia de
+cliente.
+- Generar un public void del método editarCliente y pasarle los parámetros de
+la clase Cliente.
+- Crear un getter de listaCliente y que pueda retornar una listaClientes.
+*/
 public class ClienteServicio {
 	List<Cliente> listaClientes = new ArrayList<Cliente>();
 
@@ -68,10 +82,10 @@ public class ClienteServicio {
 
 	// 9.5.- Generar un public void del método editarCliente
 	// y pasarle los parámetros de la clase Cliente.
-	public void editarCliente(String run, String nombre, String apellido, String anios, String estado) {
+	public void editarCliente(String run, String nombre, String apellido, String anios, String estado, String nuevoRun) {
 		for (Cliente cli : listaClientes) {
 			if (cli.getRunCliente().equals(run)) {
-				cli.setRunCliente(run);
+				cli.setRunCliente(nuevoRun);
 				cli.setNombreCliente(nombre);
 				cli.setApellidoCliente(apellido);
 				cli.setAniosCliente(anios);

@@ -1,5 +1,16 @@
 package cl.desafiolatam.modelo;
 
+/*
+4.- Crear la clase Cliente en package modelo, con los siguientes requisitos:
+- String runCliente
+- String nombreCliente
+- String apellidoCliente
+- String aniosCliente (se puede cambiar a int si lo desea)
+- CategoriaEnum nombreCategoria
+- Generar el constructor con parámetros
+- Generar los getter y setter correspondientes
+- Generar el toString para los parámetros
+*/
 public class Cliente {
 
 	private String runCliente;

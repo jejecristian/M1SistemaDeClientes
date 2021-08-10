@@ -11,6 +11,17 @@ import java.util.List;
 import cl.desafiolatam.modelo.CategoriaEnum;
 import cl.desafiolatam.modelo.Cliente;
 
+/*
+13.- Crear la clase ArchivoServicio en el package servicio que extiende a la clase
+Exportador. Esta contiene los siguientes requisitos:
+- Crear el método cargarDatos que recibe por parámetro un String fileName, el
+cual indica el nombre del archivo a cargar. Se deben realizar las
+implementaciones correspondientes al interior del método usando FileReader
+y BufferedReader (para lectura de archivos).
+- Crear el método exportar que será una herencia proveniente de la clase
+Exportador, cuyos parámetros serán los mismos que se van a implementar en
+el paso 8.
+*/
 public class ArchivoServicio extends Exportador{
 	
 	private ClienteServicio clienteServicio = new ClienteServicio();
@@ -40,11 +51,25 @@ public class ArchivoServicio extends Exportador{
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
+	// 13.2.- Crear el método exportar que será una herencia proveniente 
+	// de la clase Exportador, cuyos parámetros serán los mismos que se 
+	// van a implementar en el paso 8.
 	@Override
 	void exportar(String fileName, List<Cliente> listaCliente) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("---------Exportar Datos-----------");
+		System.out.println("Seleccione el formato a exportar:");
+		System.out.println("1.-Formato csv");
+		System.out.println("2.-Formato txt");
+		System.out.println();
+		System.out.println("Ingrese una opción para exportar:");
+		System.out.println();
+		System.out.println("----------------------------------");
+		System.out.println("---------Exportar Datos en Windows---------------");
+		System.out.println("Ingresa la ruta en donde desea exportar el archivo clientes.txt:");
+		System.out.println();
+		System.out.println("-----------------------------------------------");
+		System.out.println("Datos de clientes exportados correctamente en formato txt.");
 	}
 	
 	//8.4.- cargarDatos, ejecuta la carga de datos del archivo “DBClientes.csv”.
@@ -64,11 +89,13 @@ public class ArchivoServicio extends Exportador{
 			} else {
 				// Si el archivo fue encontrado
 				// Crea lista para recibir importacion
-				ArrayList<Cliente> listaCliente = new ArrayList<Cliente>();
+				ArrayList<Cliente> listaClientesImportados = new ArrayList<Cliente>();
 				// Genera lectura del archivo
 				FileReader fr = new FileReader(archivo);
 				BufferedReader br = new BufferedReader(fr);
 				String linea = br.readLine();
+				// Se define contador de lineas fallidas
+				int contador = 0;
 				while (linea != null) {
 					Cliente cliente = new Cliente();
 					String[] datosImport = linea.split(",");
@@ -78,27 +105,31 @@ public class ArchivoServicio extends Exportador{
 						cliente.setNombreCliente(datosImport[1]);
 						cliente.setApellidoCliente(datosImport[2]);
 						cliente.setAniosCliente(datosImport[3]);
-						if (datosImport[4].equalsIgnoreCase("activo")) {
-							cliente.setEstado(CategoriaEnum.ACTIVO);
-						}else {
+						if (datosImport[4].equalsIgnoreCase("inactivo")) {
 							cliente.setEstado(CategoriaEnum.INACTIVO);
-						}						
+						}else {
+							cliente.setEstado(CategoriaEnum.ACTIVO);
+						}
 						// Agrega cliente a la lista
-						listaCliente.add(cliente);
+						listaClientesImportados.add(cliente);
+					}else {
+						contador++;
 					}
 					linea = br.readLine();
 				}
 				br.close();
-				// Establece la lista
-				clienteServicio.setListaClientes(listaCliente);
-				// Imprime la lista, uno por cada linea
-				System.out.printf("\n");
-				for (Cliente cli : listaCliente) {
-					System.out.println(cli.toString());
+				if (contador > 0) {
+					System.out.println();
+					System.out.println("Proceso cargar datos cancelado. El contenido del archivo no es legible.");
+				}else {
+					// Establece la lista
+					clienteServicio.setListaClientes(listaClientesImportados);
+					// Imprime mensaje informativo
+					System.out.println();
+					System.out.println("-----------------------------------------------");
+					System.out.println();
+					System.out.println("Datos cargados correctamente en la lista");					
 				}
-				// Imprime mensaje informativo
-				System.out.println("-----------------------------------------------");
-				System.out.println("Datos cargados correctamente en la lista");
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());

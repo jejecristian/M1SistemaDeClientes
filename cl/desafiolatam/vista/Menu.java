@@ -6,6 +6,30 @@ import cl.desafiolatam.modelo.Cliente;
 import cl.desafiolatam.servicio.*;
 import cl.desafiolatam.utilidades.*;
 
+/*
+6.- Crear clase Menu en el package vistas, que debe contener los siguientes atributos:
+- clienteServicio, instancia de ClienteServicio.
+- archivoServicio, instancia de ArchivoServicio.
+- exportadorCsv, instancia de ExportarCsv.
+- exportarTxt, instancia de ExportarTxt.
+- Definir un String fileName = “Clientes” (para exportar el archivo)
+- Definir un String fileName1 = “DBClientes.csv” (para importar el archivo)
+- scanner, instancia de Scanner para recibir valores a través del teclado.
+- iniciarMenu, muestra el menu principal y recibe la entrada del teclado a través
+del scanner. Contiene la lógica para denotar los demás métodos en base a la
+entrada del teclado.
+*/
+
+/*
+7.- La clase Menu debe contener los siguientes métodos para la construcción y
+selección del menu:
+- listarCliente.
+- agregarCliente.
+- editarCliente.
+- importarDatos.
+- exportarDatos.
+- terminarPrograma.
+*/
 public class Menu implements AccionesMenu{
 	ClienteServicio clienteServicio = new ClienteServicio();
 	ArchivoServicio archivoServicio = new ArchivoServicio();
@@ -52,9 +76,10 @@ public class Menu implements AccionesMenu{
 				case "1": // Listar Clientes
 					// Limpia pantalla
 					utilidad.limpiezaDePantalla();
+					// Verifica si hay clientes en la lista
 					if (clienteServicio.getListaClientes().isEmpty()) {
 						// Si no hay clientes, muestra mensaje informativo
-						System.out.println("Aún no existen clientes en la lista.");
+						System.out.println("Aún no existen clientes para mostrar.");
 					} else {
 						// Si hay clientes, muestra lista de clientes
 						listarClientes();
@@ -73,9 +98,10 @@ public class Menu implements AccionesMenu{
 				case "3": // Editar Cliente
 					// Limpia pantalla
 					utilidad.limpiezaDePantalla();
+					// Verifica si hay clientes en la lista
 					if (clienteServicio.getListaClientes().isEmpty()) {
 						// Si no hay clientes, muestra mensaje informativo
-						System.out.println("Aún no existen clientes en la lista como para editar uno.");
+						System.out.println("Aún no existen clientes para editar.");
 					} else {
 						// Si hay clientes, se podrian editar los datos
 						// invoca metodo para editar cliente
@@ -87,12 +113,41 @@ public class Menu implements AccionesMenu{
 				case "4":// Cargar Datos
 					// Limpia pantalla
 					utilidad.limpiezaDePantalla();
-					// invoca metodo para importar datos
-					importarDatos();
+					// Verifica si hay clientes en la lista
+					if (!clienteServicio.getListaClientes().isEmpty()) {
+						// Si ya hay clientes en la lista, consulta al usuario
+						System.out.println("Ya existen clientes en la lista.");
+						System.out.println("¿Desea sobreescribir la lista con los datos a importar?");
+						System.out.println("Ingrese 1 para confirmar:");
+						opcion = sc.nextLine().trim();
+						if (opcion.equals("1")) {
+							// invoca metodo para importar datos
+							importarDatos();
+						}else {
+							System.out.println();
+							System.out.println("Proceso cargar datos cancelado. Se ingresó una opción no válida.");
+						}
+					}else {
+						// invoca metodo para importar datos
+						importarDatos();
+					}
 					System.out.println("Presione Enter para volver al menu principal.");
 					sc.nextLine();
 					break;
 				case "5": // Exportar Datos
+					// Limpia pantalla
+					utilidad.limpiezaDePantalla();
+					// Verifica si hay clientes en la lista
+					if (clienteServicio.getListaClientes().isEmpty()) {
+						// Si no hay clientes, muestra mensaje informativo
+						System.out.println("Aún no existen clientes para exportar.");
+					} else {
+						// Si hay clientes, se podrian exportar los datos
+						// invoca metodo para importar datos
+						exportarDatos();
+					}
+					System.out.println("Presione Enter para volver al menu principal.");
+					sc.nextLine();
 					break;
 				case "6": // Salir
 					// Invoca metodo que finaliza el programa
@@ -114,7 +169,6 @@ public class Menu implements AccionesMenu{
 			System.out.println(e.getMessage());
 		}
 		sc.close();
-		
 	}
 	
 	// 8.1.- listarClientes, muestra lista de clientes agregados, 
@@ -196,6 +250,7 @@ public class Menu implements AccionesMenu{
 	public void editarCliente() {
 		String opEdit = "", run = "", nombre = "", apellido = "";
 		String anios = "", estado = "", estadoInverso = "";
+		String nuevoRun = "";
 		boolean invocEditClienteServicio = true;
 		Utilidad utilidad = new Utilidad();
 		
@@ -211,6 +266,7 @@ public class Menu implements AccionesMenu{
 			System.out.println();
 			opEdit = sc.nextLine().trim();
 			if (!opEdit.trim().equals("1") && !opEdit.trim().equals("2")) {
+				System.out.println();
 				System.out.println("No se ingresó una opción válida. Intente nuevamente...");
 				utilidad.tiempoDeEspera(2);
 				utilidad.limpiezaDePantalla();
@@ -220,6 +276,8 @@ public class Menu implements AccionesMenu{
 		// De haber ingresado una opción válida, entonces solicita el RUN
 		System.out.println("Ingrese RUN del Cliente a editar: ");
 		run = sc.nextLine().trim();
+		// Establece nuevo run equivalente al run actual.
+		nuevoRun = run; //Esto para poder cambiar de run a partir de un run
 		
 		// Busca el registro coincidente con el RUN ingresado
 		int pos = -1, contador = 0;
@@ -256,6 +314,7 @@ public class Menu implements AccionesMenu{
 				if (opEdit.equals("1")) {
 					estado = estadoInverso;
 				}else if(!opEdit.equals("1")&&!opEdit.equals("2")){
+					System.out.println();
 					System.out.println("La opción ingresada no es válida, por ende se mantendrá el estado.");
 					invocEditClienteServicio = false;
 				}
@@ -280,7 +339,7 @@ public class Menu implements AccionesMenu{
 				// Valida la opción ingresada
 				if(opEdit.equals("1")) {
 					System.out.println("1.-Ingrese nuevo RUN del Cliente:");
-					run = sc.nextLine().trim();
+					nuevoRun = sc.nextLine().trim();
 				}else if (opEdit.equals("2")) {
 					System.out.println("2.-Ingrese nuevo Nombre del Cliente:");
 					nombre = sc.nextLine().trim();
@@ -306,6 +365,7 @@ public class Menu implements AccionesMenu{
 						}
 					}
 				}else {
+					System.out.println();
 					System.out.println("La opción ingresada no es válida, por ende se mantendrán los mismos datos.");
 					invocEditClienteServicio = false;
 				}
@@ -315,9 +375,10 @@ public class Menu implements AccionesMenu{
 			// 9.5.- Generar un public void del método editarCliente
 			// y pasarle los parámetros de la clase Cliente.
 			if (invocEditClienteServicio) {
-				clienteServicio.editarCliente(run, nombre, apellido, anios, estado);
+				clienteServicio.editarCliente(run, nombre, apellido, anios, estado, nuevoRun);
 			}
 		} else {
+			System.out.println();
 			System.out.println("No se ha encontrado el cliente con RUN: " + run);
 		}
 	}
@@ -325,35 +386,76 @@ public class Menu implements AccionesMenu{
 	// 8.4.- cargarDatos, ejecuta la carga de datos del archivo “DBClientes.csv”.
 	@Override
 	public void importarDatos() {
-		String rutaArchivo = "", opConfirmar = "";
-		boolean invocCargarDatos = true;
-		// Comprueba si existen clientes en la lista
-		if (!clienteServicio.getListaClientes().isEmpty()) {
-			// Si ya hay clientes en la lista, consulta al usuario
-			System.out.println("Ya existen clientes en la lista.");
-			System.out.println("¿Desea sobreescribir la lista con los datos a importar?");
-			System.out.println("Ingrese 1 para confirmar:");
-			opConfirmar = sc.nextLine().trim();
-			if (!opConfirmar.equals("1")) {
-				invocCargarDatos = false;
-				System.out.println("Proceso importar datos cancelado por petición del usuario.");
-			}
-		}
-		if (invocCargarDatos) {
-			System.out.println("---------Cargar Datos en Windows---------------");
-			System.out.println("Ingresa la ruta en donde se encuentra el archivo DBClientes.csv:");
-			rutaArchivo = sc.nextLine().trim();
-			rutaArchivo = rutaArchivo + "\\" + fileName1;
-			archivoServicio.cargarDatos(rutaArchivo);
-		}
+		String rutaArchivo = "";
+		System.out.println("---------Cargar Datos en Windows---------------");
+		System.out.println("Ingresa la ruta en donde se encuentra el archivo DBClientes.csv:");
+		rutaArchivo = sc.nextLine().trim();
+		// Arma ruta + archivo para entregarlo como parámetro fileName
+		// al metodo cargarDatos de la clase ArchivoServicio.
+		rutaArchivo = rutaArchivo + "\\" + fileName1;		
+		// Asigna instancia clienteServicio al atributo personalizado
+		// de la clase ArchivoServicio.
+		archivoServicio.setClienteServicio(clienteServicio);
+		// Invoca metodo de la clase ArchivoServicio por lo siguiente:
+		//13.1.- Crear el método cargarDatos que recibe por parámetro 
+		//un String fileName, el cual indica el nombre del archivo a cargar.
+		//Se deben realizar las implementaciones correspondientes al interior 
+		//del método usando FileReader y BufferedReader (para lectura de archivos).
+		archivoServicio.cargarDatos(rutaArchivo);
 	}
 
+	// 8.5.- exportarDatos, llama a método para exportar clientes 
+	// en formato “.txt” o “.csv”.
 	@Override
 	public void exportarDatos() {
-		// TODO Auto-generated method stub
-		
+		String rutaArchivo = "", opConfirmar = "";
+		System.out.println("---------Exportar Datos-----------");
+		System.out.println("Seleccione el formato a exportar:");
+		System.out.println("1.-Formato csv");
+		System.out.println("2.-Formato txt");
+		System.out.println();
+		System.out.println("Ingrese una opción para exportar:");
+		opConfirmar = sc.nextLine().trim();
+		System.out.println("----------------------------------");
+		System.out.println();
+		// Valida opcion ingresada para exportar
+		if (opConfirmar.equals("1")) {
+			System.out.println("---------Exportar Datos en Windows---------------");
+			System.out.println("Ingresa la ruta en donde desea exportar el archivo clientes.csv:");
+			rutaArchivo = sc.nextLine().trim();
+			// Arma ruta + archivo para entregarlo como parámetro fileName
+			// al metodo exportar de la clase ExportadorCsv.
+			rutaArchivo = rutaArchivo + "\\" + fileName + ".csv";
+			// Invoca metodo de la clase ExportadorCsv por lo siguiente:
+			// 11.- Crear una clase ExportadorCsv en el package servicio, 
+			// que contenga un método exportar, cuyos parámetros serán 
+			// String fileName y una List<Cliente> listaClientes.
+			// Se deben realizar las implementaciones correspondientes 
+			// al interior del método usando PrintWriter y Filewriter 
+			// para la exportación de archivos.
+			exportadorCsv.exportar(rutaArchivo, clienteServicio.getListaClientes());
+		}else if (opConfirmar.equals("2")) {
+			System.out.println("---------Exportar Datos en Windows---------------");
+			System.out.println("Ingresa la ruta en donde desea exportar el archivo clientes.txt:");
+			rutaArchivo = sc.nextLine().trim();
+			// Arma ruta + archivo para entregarlo como parámetro fileName
+			// al metodo exportar de la clase ExportadorTxt.
+			rutaArchivo = rutaArchivo + "\\" + fileName + ".txt";
+			// Invoca metodo de la clase ExportadorTxt por lo siguiente:
+			// 12.- Crear una clase ExportadorCsv en el package servicio,
+			// que contenga un método exportar, cuyos parámetros serán
+			// String fileName y una List<Cliente> listaClientes.
+			// Se deben realizar las implementaciones correspondientes
+			// al interior del método usando PrintWriter y Filewriter
+			// para la exportación de archivos.
+			exportadorTxt.exportar(rutaArchivo, clienteServicio.getListaClientes());
+		}else {
+			System.out.println();
+			System.out.println("La opcion ingresada no es válida.");
+		}
 	}
 
+	// 8.6.- terminarPrograma, el cual finaliza la ejecución del sistema.
 	@Override
 	public void terminarPrograma() {
 		Utilidad utilidad = new Utilidad();

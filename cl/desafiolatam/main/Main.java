@@ -9,6 +9,8 @@ public class Main {
 	public static void main(String[] args) {
 		// Se crea instancia de menú
 		Menu listadoMenu = new Menu();
+		// Crear la clase Main que contenga método main para 
+		// iniciar el programa. Debe iniciar con el menú.
 		// Invoca metodo que presenta el menú
 		listadoMenu.iniciarMenu();
 	}
