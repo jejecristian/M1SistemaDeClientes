@@ -20,4 +20,10 @@ public class Utilidad {
 			e.printStackTrace();
 		}
 	}
+	
+	// Metodo que permite obtener el sistema operativo del usuario
+	public String obtenerSistemaOperativo() {
+		String so = System.getProperty("os.name");
+		return so;
+	}
 }

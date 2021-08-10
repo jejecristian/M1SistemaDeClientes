@@ -386,13 +386,27 @@ public class Menu implements AccionesMenu{
 	// 8.4.- cargarDatos, ejecuta la carga de datos del archivo “DBClientes.csv”.
 	@Override
 	public void importarDatos() {
+		// Aplica utilidad para derterminar el sistema operativo del usuario
+		Utilidad utilidad = new Utilidad();
+		String sistemaOperativo = utilidad.obtenerSistemaOperativo();
+		String sisOp = "", slash = "";
+		// Valida sistema operativo del usuario
+		if (sistemaOperativo.trim().contains("Window")) {
+			// Si posee Windoes entonces
+			sisOp = "Windows----";
+			slash = "\\"; // compatible en windows
+		} else {
+			// Si posee Linux o Mac entonces
+			sisOp = "Linux o Mac";
+			slash = "/";
+		}
 		String rutaArchivo = "";
-		System.out.println("---------Cargar Datos en Windows---------------");
+		System.out.println("---------Cargar Datos en "+ sisOp +"-----------");
 		System.out.println("Ingresa la ruta en donde se encuentra el archivo DBClientes.csv:");
 		rutaArchivo = sc.nextLine().trim();
 		// Arma ruta + archivo para entregarlo como parámetro fileName
 		// al metodo cargarDatos de la clase ArchivoServicio.
-		rutaArchivo = rutaArchivo + "\\" + fileName1;		
+		rutaArchivo = rutaArchivo + slash + fileName1;
 		// Asigna instancia clienteServicio al atributo personalizado
 		// de la clase ArchivoServicio.
 		archivoServicio.setClienteServicio(clienteServicio);
@@ -408,6 +422,22 @@ public class Menu implements AccionesMenu{
 	// en formato “.txt” o “.csv”.
 	@Override
 	public void exportarDatos() {
+		// Aplica utilidad para derterminar el sistema operativo del usuario
+		Utilidad utilidad = new Utilidad();
+		String sistemaOperativo = utilidad.obtenerSistemaOperativo();
+		String sisOp = "", slash = "";
+		// Valida sistema operativo del usuario
+		if (sistemaOperativo.trim().contains("Window")) {
+			// Si posee Windoes entonces
+			sisOp = "Windows----";
+			slash = "\\"; // compatible en windows
+		}else {
+			// Si posee Linux o Mac entonces
+			sisOp = "Linux o Mac";
+			slash = "/";
+		}
+		
+		// Gennera opciones de exportacion
 		String rutaArchivo = "", opConfirmar = "";
 		System.out.println("---------Exportar Datos-----------");
 		System.out.println("Seleccione el formato a exportar:");
@@ -420,12 +450,12 @@ public class Menu implements AccionesMenu{
 		System.out.println();
 		// Valida opcion ingresada para exportar
 		if (opConfirmar.equals("1")) {
-			System.out.println("---------Exportar Datos en Windows---------------");
+			System.out.println("---------Exportar Datos en "+ sisOp +"-----------");
 			System.out.println("Ingresa la ruta en donde desea exportar el archivo clientes.csv:");
 			rutaArchivo = sc.nextLine().trim();
 			// Arma ruta + archivo para entregarlo como parámetro fileName
 			// al metodo exportar de la clase ExportadorCsv.
-			rutaArchivo = rutaArchivo + "\\" + fileName + ".csv";
+			rutaArchivo = rutaArchivo + slash + fileName + ".csv";
 			// Invoca metodo de la clase ExportadorCsv por lo siguiente:
 			// 11.- Crear una clase ExportadorCsv en el package servicio, 
 			// que contenga un método exportar, cuyos parámetros serán 
@@ -435,12 +465,12 @@ public class Menu implements AccionesMenu{
 			// para la exportación de archivos.
 			exportadorCsv.exportar(rutaArchivo, clienteServicio.getListaClientes());
 		}else if (opConfirmar.equals("2")) {
-			System.out.println("---------Exportar Datos en Windows---------------");
+			System.out.println("---------Exportar Datos en "+ sisOp +"-----------");
 			System.out.println("Ingresa la ruta en donde desea exportar el archivo clientes.txt:");
 			rutaArchivo = sc.nextLine().trim();
 			// Arma ruta + archivo para entregarlo como parámetro fileName
 			// al metodo exportar de la clase ExportadorTxt.
-			rutaArchivo = rutaArchivo + "\\" + fileName + ".txt";
+			rutaArchivo = rutaArchivo + slash + fileName + ".txt";
 			// Invoca metodo de la clase ExportadorTxt por lo siguiente:
 			// 12.- Crear una clase ExportadorCsv en el package servicio,
 			// que contenga un método exportar, cuyos parámetros serán
@@ -465,6 +495,5 @@ public class Menu implements AccionesMenu{
 		// Uso del tiempo de espera
 		utilidad.tiempoDeEspera(2);
 		System.out.println("Acaba de salir del sistema");
-		
 	}
 }
